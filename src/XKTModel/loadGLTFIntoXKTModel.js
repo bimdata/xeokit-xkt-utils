@@ -334,8 +334,11 @@ function parseNode(parsingCtx, glTFNode, matrix) {
                     primitiveIds = [];
 
                     for (let i = 0; i < numPrimitivesInMesh; i++) {
-
                         const primitiveInfo = meshInfo.primitives[i];
+                        if (primitiveInfo.mode < 4) {
+                            // keep only triangles
+                            continue;
+                        }
                         const materialIndex = primitiveInfo.material;
                         const materialInfo = (materialIndex !== null && materialIndex !== undefined) ? gltf.materials[materialIndex] : null;
                         const color = materialInfo ? materialInfo._rgbaColor : new Float32Array([1.0, 1.0, 1.0, 1.0]);
